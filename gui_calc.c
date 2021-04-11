@@ -20,188 +20,79 @@ GtkWidget *window, *input, *symbols[10], *layout1, *eq_button, *p_button, *m_but
 int op1, op2, result, operacion, change_count;
 int firstNum = 1;
 
-void num0_action(){
+void appendNumber(int num){
     char inputNum[30] = "";
-    char zero = '0';
     int inputInt;
+    char numToAppend[5] = "";
+
+    sprintf(numToAppend, "%i", num);
 
     if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &zero);
+        gtk_entry_set_text((GtkEntry *)input, numToAppend);
         firstNum = 0;
     }
     else{
         sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
         sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &zero, 1);
+        strncat(inputNum, numToAppend, 1);
         gtk_entry_set_text((GtkEntry *)input, inputNum);
     }
+}
+
+void scanOperando1(){
+    sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &op1);
+    gtk_entry_set_text((GtkEntry *)input, "");
+    firstNum = 1;
+}
+
+void num0_action(){
+    appendNumber(0);
 }
 
 void num1_action(){
-    char inputNum[30] = "";
-    char one = '1';
-    int inputInt;
-    
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &one);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &one, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(1);
 }
 
 void num2_action(){
-    char inputNum[30] = "";
-    char two = '2';
-    int inputInt;
-
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &two);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &two, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(2);
 }
 
 void num3_action(){
-    char inputNum[30] = "";
-    char three = '3';
-    int inputInt;
-
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &three);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &three, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(3);
 }
 
 void num4_action(){
-    char inputNum[30] = "";
-    char four = '4';
-    int inputInt;
-
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &four);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &four, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(4);
 }
 
 void num5_action(){
-    char inputNum[30] = "";
-    char five = '5';
-    int inputInt;
-
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &five);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &five, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(5);
 }
 
 void num6_action(){
-    char inputNum[30] = "";
-    char six = '6';
-    int inputInt;
-
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &six);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &six, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(6);
 }
 
 void num7_action(){
-    char inputNum[30] = "";
-    char seven = '7';
-    int inputInt;
-
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &seven);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &seven, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(7);
 }
 
 void num8_action(){
-    char inputNum[30] = "";
-    char eigth = '8';
-    int inputInt;
-
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &eigth);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &eigth, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(8);
 }
 
 void num9_action(){
-    char inputNum[30] = "";
-    char nine = '9';
-    int inputInt;
-
-    if(firstNum){
-        gtk_entry_set_text((GtkEntry *)input, &nine);
-        firstNum = 0;
-    }
-    else{
-        sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
-        sprintf(inputNum, "%i", inputInt);
-        strncat(inputNum, &nine, 1);
-        gtk_entry_set_text((GtkEntry *)input, inputNum);
-    }
+    appendNumber(9);
 }
 
 void sum_action(){
     operacion = 0;
-    sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &op1);
-    gtk_entry_set_text((GtkEntry *)input, "");
-    firstNum = 1;
+    scanOperando1();
 }
 
 void sub_action(){
     operacion = 1;
-    sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &op1);
-    gtk_entry_set_text((GtkEntry *)input, "");
-    firstNum = 1;
+    scanOperando1();
 }
 
 void eq_action(){
