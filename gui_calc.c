@@ -1,16 +1,3 @@
-/*
-instalacion:
-sudo apt-get install gtk+-3.0
-sudo apt-get upgrade gtk+-3.0
-sudo apt-get install libgtk-3-dev
-
-pkg-config --cflags gtk+-3.0 
-pkg-config --libs gtk+-3.0
-
-compilacion: 
-gcc `pkg-config --cflags gtk+-3.0` -o gui gui_calc.c `pkg-config --libs gtk+-3.0`
-*/
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -115,21 +102,20 @@ void change_action(){
     if(change_count%2 == 0){
         gtk_button_set_label ((GtkButton *)change_button, "Dec");
         
+        for(int i=2; i<10; i++){
+            gtk_widget_hide(symbols[i]);
+        }
         gtk_layout_move(GTK_LAYOUT(layout1), symbols[0], 80, 100);
         gtk_layout_move(GTK_LAYOUT(layout1), symbols[1], 80, 150);
-        for(int i=2; i<10; i++){
-            gtk_layout_move(GTK_LAYOUT(layout1), symbols[i], -100, -100);
-        }
     }
     else{
         gtk_button_set_label ((GtkButton *)change_button, "Bin");
 
         gtk_layout_move(GTK_LAYOUT(layout1), symbols[0], 30, 250);
-        for (int i = 0; i < 3; i++)
+        gtk_layout_move(GTK_LAYOUT(layout1), symbols[1], 30, 100);
+        for (int i=2; i<10; i++)
         {
-            gtk_layout_move(GTK_LAYOUT(layout1), symbols[i+1], 30+i*50, 100);
-            gtk_layout_move(GTK_LAYOUT(layout1), symbols[i+4], 30+i*50, 150);
-            gtk_layout_move(GTK_LAYOUT(layout1), symbols[i+7], 30+i*50, 200);
+            gtk_widget_show(symbols[i]);
         }
     }
     gtk_button_clicked (GTK_BUTTON(clear_button));
@@ -154,7 +140,6 @@ int main(int argc, char **argv){
     gtk_container_set_border_width(GTK_CONTAINER(window), 0);
     gtk_window_set_default_size(GTK_WINDOW(window), 280, 300);
     
-    //para decimales
     layout1 = gtk_layout_new(NULL, NULL);
 
     //creo el display del input
