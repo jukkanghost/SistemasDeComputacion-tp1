@@ -1,14 +1,66 @@
+/*
+instalacion:
+sudo apt-get install gtk+-3.0
+sudo apt-get upgrade gtk+-3.0
+sudo apt-get install libgtk-3-dev
+
+pkg-config --cflags gtk+-3.0 
+pkg-config --libs gtk+-3.0
+
+compilacion: 
+gcc `pkg-config --cflags gtk+-3.0` -o gui gui_calc.c `pkg-config --libs gtk+-3.0`
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
-GtkWidget *window, *window2, *input, *symbols[10], *layout1, *layout2, *eq_button, *p_button, *m_button, *change_button;
+GtkWidget *window, *input, *symbols[10], *layout1, *eq_button, *p_button, *m_button, *change_button, *clear_button;
 int op1, op2, result, operacion, change_count;
 
+void num0_action(){
+    char inputNum[30] = "";
+    char zero = '0';
+    int inputInt;
 
-void num_action(){
-    ;
+    sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
+    sprintf(inputNum, "%i", inputInt);
+    strncat(inputNum, &zero, 1);
+    gtk_entry_set_text((GtkEntry *)input, inputNum);
+}
+
+void num1_action(){
+    char inputNum[30] = "";
+    char one = '1';
+    int inputInt;
+
+    sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
+    sprintf(inputNum, "%i", inputInt);
+    strncat(inputNum, &one, 1);
+    gtk_entry_set_text((GtkEntry *)input, inputNum);
+}
+
+void num2_action(){
+    char inputNum[30] = "";
+    char two = '2';
+    int inputInt;
+
+    sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
+    sprintf(inputNum, "%i", inputInt);
+    strncat(inputNum, &two, 1);
+    gtk_entry_set_text((GtkEntry *)input, inputNum);
+}
+
+void num3_action(){
+    char inputNum[30] = "";
+    char three = '3';
+    int inputInt;
+
+    sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &inputInt);
+    sprintf(inputNum, "%i", inputInt);
+    strncat(inputNum, &three, 1);
+    gtk_entry_set_text((GtkEntry *)input, inputNum);
 }
 
 void sum_action(){
@@ -43,6 +95,13 @@ void change_action(){
     change_count++;
 }
 
+void clear_action(){
+    op1 = 0;
+    op2 = 0;
+    result = 0;
+    gtk_entry_set_text((GtkEntry *)input, "");
+}
+
 int main(int argc, char **argv){
 
     gtk_init(&argc, &argv);
@@ -53,22 +112,15 @@ int main(int argc, char **argv){
     gtk_container_set_border_width(GTK_CONTAINER(window), 0);
     gtk_window_set_default_size(GTK_WINDOW(window), 280, 300);
     
-    /*window2 = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    g_signal_connect(window2, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-    gtk_window_set_title(GTK_WINDOW(window2), "Calculadora");
-    gtk_container_set_border_width(GTK_CONTAINER(window2), 0);
-    gtk_window_set_default_size(GTK_WINDOW(window2), 280, 300);*/
-
     //para decimales
     layout1 = gtk_layout_new(NULL, NULL);
-    //para binarios
-    layout2 = gtk_layout_new(NULL, NULL);
 
     //creo el display del input
     input = gtk_entry_new();
     gtk_entry_set_max_length(GTK_ENTRY(input), 25);
     gtk_entry_set_width_chars(GTK_ENTRY(input), 25);
-
+    gtk_entry_set_text((GtkEntry *)input, "");
+    
     //creo botones de 0 a 9
     symbols[0] = gtk_button_new_with_label("0");
     symbols[1] = gtk_button_new_with_label("1");
@@ -86,6 +138,7 @@ int main(int argc, char **argv){
     p_button = gtk_button_new_with_label("+");
     m_button = gtk_button_new_with_label("-");
     change_button = gtk_button_new_with_label("Bin");
+    clear_button = gtk_button_new_with_label("CE");
 
     /************DIBUJO LAYOUT PARA DECIMALES***********/
     //dibujo display input 
@@ -93,47 +146,35 @@ int main(int argc, char **argv){
 
     //dibujo 0, agrego accion
     gtk_layout_put(GTK_LAYOUT(layout1), symbols[0], 30, 250);
-    //g_signal_connect(p_button, "clicked", G_CALLBACK(num_action(0)), NULL);
+    g_signal_connect(symbols[0], "clicked", G_CALLBACK(num0_action), NULL);
     
     //dibujo 1 a 9, agrego accion
     for (int i = 0; i < 3; i++)
     {
         gtk_layout_put(GTK_LAYOUT(layout1), symbols[i+1], 30+i*50, 100);
-        //g_signal_connect(symbols[i+1], "clicked", G_CALLBACK(num_action(i+1)), NULL);
         gtk_layout_put(GTK_LAYOUT(layout1), symbols[i+4], 30+i*50, 150);
-        //g_signal_connect(symbols[i+4], "clicked", G_CALLBACK(num_action(i+4)), NULL);
         gtk_layout_put(GTK_LAYOUT(layout1), symbols[i+7], 30+i*50, 200);
-        //g_signal_connect(symbols[i+7], "clicked", G_CALLBACK(num_action(i+7)), NULL);
     }
+
+    g_signal_connect(symbols[1], "clicked", G_CALLBACK(num1_action), NULL);
+    g_signal_connect(symbols[2], "clicked", G_CALLBACK(num2_action), NULL);
+    g_signal_connect(symbols[3], "clicked", G_CALLBACK(num3_action), NULL);
 
     //dibujo +, -, = y cambio, le pongo acciones
     gtk_layout_put(GTK_LAYOUT(layout1), p_button, 80, 250);
     gtk_layout_put(GTK_LAYOUT(layout1), m_button, 130, 250);
     gtk_layout_put(GTK_LAYOUT(layout1), eq_button, 200, 150);
     gtk_layout_put(GTK_LAYOUT(layout1), change_button, 200, 250);
+    gtk_layout_put(GTK_LAYOUT(layout1), clear_button, 200, 100);
 
     g_signal_connect(p_button, "clicked", G_CALLBACK(sum_action), NULL);
     g_signal_connect(m_button, "clicked", G_CALLBACK(sub_action), NULL);
     g_signal_connect(eq_button, "clicked", G_CALLBACK(eq_action), NULL);
     g_signal_connect(change_button, "clicked", G_CALLBACK(change_action), NULL);
+    g_signal_connect(clear_button, "clicked", G_CALLBACK(clear_action), NULL);
 
-    /************DIBUJO LAYOUT PARA BINARIOS***********/
-    //dibujo display input 
-    /*gtk_layout_put(GTK_LAYOUT(layout2), input, 30, 30);
-
-    //dibujo 0, agrego accion
-    gtk_layout_put(GTK_LAYOUT(layout2), symbols[0], 30, 150);
-    gtk_layout_put(GTK_LAYOUT(layout2), symbols[1], 30, 250);
-
-    //dibujo +, -, = y cambio, le pongo acciones
-    gtk_layout_put(GTK_LAYOUT(layout2), p_button, 80, 250);
-    gtk_layout_put(GTK_LAYOUT(layout2), m_button, 130, 250);
-    gtk_layout_put(GTK_LAYOUT(layout2), eq_button, 200, 150);
-    gtk_layout_put(GTK_LAYOUT(layout2), change_button, 200, 250);*/
-
-    /**************************************************/
+    //agrego el layout a la ventana y la muestro
     gtk_container_add(GTK_CONTAINER(window), layout1);
-    //gtk_container_add(GTK_CONTAINER(window2), layout2);
 
     gtk_widget_show_all(window);
 
