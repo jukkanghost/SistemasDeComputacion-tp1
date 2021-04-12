@@ -4,8 +4,9 @@
 #include <gtk/gtk.h>
 
 GtkWidget *window, *input, *symbols[10], *layout1, *eq_button, *p_button, *m_button, *change_button, *clear_button;
-int op1, op2, result, operacion, change_count;
+int op1, op2, result, operacion;
 int firstNum = 1;
+int change_count = 0;
 
 void appendNumber(int num){
     char inputNum[30] = "";
@@ -87,11 +88,25 @@ void eq_action(){
 
     sscanf(gtk_entry_get_text(GTK_ENTRY(input)), "%i", &op2);
     
-    if(operacion == 0){
-        result = op1 + op2;
+    if(change_count%2 != 0){//change count impar : binario
+        if(operacion == 0){//operacion == 0: suma
+            //result = sumaBinaria();
+            result = 1111;
+        }
+        else{//operacion == 1: resta
+            //result = restaBinaria();
+            result = 1000;
+        }
     }
-    else{
-        result = op1 - op2;
+    else{//change count par : decimal
+        if(operacion == 0){//operacion == 0: suma
+            //result = sumaDecimal(op1, op2);
+            result = op1 + op2;
+        }
+        else{//operacion == 1: resta
+            //result = restaDecimal(op1, op2);
+            result = op1 - op2;
+        }
     }
     
     sprintf(resText, "%i", result);
@@ -144,7 +159,7 @@ int main(int argc, char **argv){
 
     //creo el display del input
     input = gtk_entry_new();
-    gtk_entry_set_max_length(GTK_ENTRY(input), 25);
+    gtk_entry_set_max_length(GTK_ENTRY(input), 8);
     gtk_entry_set_width_chars(GTK_ENTRY(input), 25);
     
     //creo botones de 0 a 9
