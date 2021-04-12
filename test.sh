@@ -11,10 +11,16 @@ assert_equals () {
   fi
 }
 
-response=$(./calc 2 + 2)
+response=$(./calc 1 2 + 2)
 assert_equals "$response" 4
 
-response=$(./calc 2 - 2)
+response=$(./calc 1 2 - 2)
+assert_equals "$response" 0
+
+response=$(./calc 0 0001 + 0001)
+assert_equals "$response" 0010
+
+response=$(./calc 1 0001 - 0001)
 assert_equals "$response" 0
 
 
