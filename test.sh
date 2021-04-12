@@ -20,7 +20,7 @@ assert_equals "$response" 0
 response=$(./calc 0 0001 + 0001)
 assert_equals "$response" 0010
 
-response=$(./calc 0 0001 - 0001)
-assert_equals "$response" 0
+response=$(./calc 0 1100 - 0100)
+assert_equals "$response" 1000
 
 
