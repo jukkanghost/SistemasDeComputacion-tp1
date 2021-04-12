@@ -23,7 +23,7 @@ assert_equals "$response" 10
 response=$(./calc 0 1100 - 0100)
 assert_equals "$response" 1000
 
-response=$(/calc 0 1100 + 100f)
+response=$(./calc 0 1100 + 100f)
 assert_equals "$response" Pone numeros
 
 response=$(./calc 0 1100 - 10000)
