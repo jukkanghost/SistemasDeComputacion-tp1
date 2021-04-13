@@ -91,7 +91,6 @@ int main(int argc, char *argv[])
         {
             if (argv[2][i] < 48 || argv[2][i] > 49)
             {
-                printf("%i %i %c", strlen(argv[2]), i, (argv[2][i]));
                 printf("Solocerosyunos\n");
                 return EXIT_FAILURE;
             }
