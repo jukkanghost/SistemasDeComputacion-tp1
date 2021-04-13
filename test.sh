@@ -24,22 +24,22 @@ response=$(./calc 0 1100 - 0100)
 assert_equals "$response" 1000
 
 response=$(./calc 0 1100 + 100f)
-assert_equals "$response" Pone numeros
+assert_equals "$response" Ponenumeros
 
 response=$(./calc 0 1100 - 10000)
-assert_equals "$response" Binario de 4 digitos
+assert_equals "$response" Binario4digitos
 
 response=$(./calc 0 1300 + 1000)
-assert_equals "$response" Solo ceros y unos
+assert_equals "$response" Solocerosyunos
 
 response=$(./calc 1 454555 - 101823dsf)
-assert_equals "$response" Pone numeros
+assert_equals "$response" Ponenumeros
 
 response=$(./calc 1 454555 + 10182391893198)
-assert_equals "$response" Numero muy grande
+assert_equals "$response" Numeromuygrande
 
 response=$(./calc akjfh 1100 + 1100)
-assert_equals "$response" Elige 0 o 1 para las operaciones
+assert_equals "$response" Elige0o1paralasoperaciones
 
 
 

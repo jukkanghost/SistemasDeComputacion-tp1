@@ -32,13 +32,13 @@ int main(int argc, char *argv[])
 
     if (isdigit(argv[1][0]) == 0)
     {
-        printf("Elige 0 o 1 para las operaciones\n");
+        printf("Elige0o1paralasoperaciones\n");
         return EXIT_FAILURE;
     }
 
     if (operacion < 0 || operacion > 1)
     {
-        printf("Elige 0 o 1 para las operaciones\n");
+        printf("Elige0o1paralasoperaciones\n");
         return EXIT_FAILURE;
     }
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     {
         if (isdigit(argv[2][i]) == 0)
         {
-            printf("Pone numeros\n");
+            printf("Ponenumeros\n");
             return EXIT_FAILURE;
         }
     }
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     {
         if (isdigit(argv[4][i]) == 0)
         {
-            printf("Pone numeros\n");
+            printf("Ponenumeros\n");
             return EXIT_FAILURE;
         }
     }
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     {
         if (strlen(argv[2]) > 8 || strlen(argv[4]) > 8)
         {
-            printf("Numero muy grande\n");
+            printf("Numeromuygrande\n");
             return EXIT_FAILURE;
         }
 
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     {
         if (strlen(argv[2]) != 4 || strlen(argv[4]) != 4)
         {
-            printf("Binario de 4 digitos\n");
+            printf("Binario4digitos\n");
             return EXIT_FAILURE;
         }
         for (int i = 0; i < strlen(argv[2]); i++)
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
             if (argv[2][i] < 48 || argv[2][i] > 49)
             {
                 printf("%i %i %c", strlen(argv[2]), i, (argv[2][i]));
-                printf("Solo ceros y unos\n");
+                printf("Solocerosyunos\n");
                 return EXIT_FAILURE;
             }
         }
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
         {
             if (argv[4][i] < 48 || argv[4][i] > 49)
             {
-                printf("Solo ceros y unos\n");
+                printf("Solocerosyunos\n");
                 return EXIT_FAILURE;
             }
         }
