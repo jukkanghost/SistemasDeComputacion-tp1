@@ -1,0 +1,101 @@
+						LINKER
+						
+Un enlazadores un programa que toma los objetos generados en los primeros pasos del proceso de compilación, la información de todos los recursos necesarios (biblioteca), quita aquellos recursos que no necesita, y enlaza el código objeto con su(s) biblioteca(s) con lo que finalmente produce un fichero ejecutable o una biblioteca. En el caso de los programas enlazados dinámicamente, el enlace entre el programa ejecutable y las bibliotecas se realiza en tiempo de carga o ejecución del programa.
+
+La dirección que aparece en el script del linker es 0x7c00. Es necesaria porque es la dirección donde el BIOS carga el MBR
+
+La opción --oformat binary es para obtener una imagen en binario plano obteniendo solo las instrucciones del .o
+
+
+
+
+						objdump 
+						
+main.o:     formato del fichero elf64-x86-64
+
+
+Desensamblado de la sección .text:
+
+0000000000000000 <loop-0x5>:
+ld --oformat binary -o main.img -T link.ld main.o
+qemu-system-x86_64 -hda main.img
+*/
+
+.code16
+    mov $msg, %si
+   0:	be 00 00 b4 0e       	mov    $0xeb40000,%esi
+
+0000000000000005 <loop>:
+    mov $0x0e, %ah
+loop:
+    lodsb
+   5:	ac                   	lods   %ds:(%rsi),%al
+    or %al, %al
+   6:	08 c0                	or     %al,%al
+    jz halt
+   8:	74 04                	je     e <halt>
+    int $0x10
+   a:	cd 10                	int    $0x10
+    jmp loop
+   c:	eb f7                	jmp    5 <loop>
+
+000000000000000e <halt>:
+halt:
+    hlt
+   e:	f4                   	hlt    
+
+000000000000000f <msg>:
+   f:	68 6f 6c 61 20       	pushq  $0x20616c6f
+  14:	63 61 70             	movslq 0x70(%rcx),%esp
+  17:	6f                   	outsl  %ds:(%rsi),(%dx)
+  18:	20 63 6f             	and    %ah,0x6f(%rbx)
+  1b:	6d                   	insl   (%dx),%es:(%rdi)
+  1c:	6f                   	outsl  %ds:(%rsi),(%dx)
+  1d:	20 61 6e             	and    %ah,0x6e(%rcx)
+  20:	64 61                	fs (bad) 
+  22:	73 20                	jae    44 <msg+0x35>
+  24:	74 6f                	je     95 <msg+0x86>
+  26:	64 6f                	outsl  %fs:(%rsi),(%dx)
+  28:	20 62 69             	and    %ah,0x69(%rdx)
+  2b:	65 6e                	outsb  %gs:(%rsi),(%dx)
+  2d:	3f                   	(bad)
+  
+  
+  
+  						hd
+  						
+el programa va de 0 a 2d
+  						
+00000000 |be 0f 7c b4 0e ac 08 c0  74 04 cd 10 eb f7 f4 68  |..|.....t......h|
+00000010  6f 6c 61 20 63 61 70 6f  20 63 6f 6d 6f 20 61 6e  |ola capo como an|
+00000020  64 61 73 20 74 6f 64 6f  20 62 69 65 6e 3f|00 66  |das todo bien?.f|
+00000030  2e 0f 1f 84 00 00 00 00  00 66 2e 0f 1f 84 00 00  |.........f......|
+00000040  00 00 00 66 2e 0f 1f 84  00 00 00 00 00 66 2e 0f  |...f.........f..|
+00000050  1f 84 00 00 00 00 00 66  2e 0f 1f 84 00 00 00 00  |.......f........|
+00000060  00 66 2e 0f 1f 84 00 00  00 00 00 66 2e 0f 1f 84  |.f.........f....|
+00000070  00 00 00 00 00 66 2e 0f  1f 84 00 00 00 00 00 66  |.....f.........f|
+00000080  2e 0f 1f 84 00 00 00 00  00 66 2e 0f 1f 84 00 00  |.........f......|
+00000090  00 00 00 66 2e 0f 1f 84  00 00 00 00 00 66 2e 0f  |...f.........f..|
+000000a0  1f 84 00 00 00 00 00 66  2e 0f 1f 84 00 00 00 00  |.......f........|
+000000b0  00 66 2e 0f 1f 84 00 00  00 00 00 66 2e 0f 1f 84  |.f.........f....|
+000000c0  00 00 00 00 00 66 2e 0f  1f 84 00 00 00 00 00 66  |.....f.........f|
+000000d0  2e 0f 1f 84 00 00 00 00  00 66 2e 0f 1f 84 00 00  |.........f......|
+000000e0  00 00 00 66 2e 0f 1f 84  00 00 00 00 00 66 2e 0f  |...f.........f..|
+000000f0  1f 84 00 00 00 00 00 66  2e 0f 1f 84 00 00 00 00  |.......f........|
+00000100  00 66 2e 0f 1f 84 00 00  00 00 00 66 2e 0f 1f 84  |.f.........f....|
+00000110  00 00 00 00 00 66 2e 0f  1f 84 00 00 00 00 00 66  |.....f.........f|
+00000120  2e 0f 1f 84 00 00 00 00  00 66 2e 0f 1f 84 00 00  |.........f......|
+00000130  00 00 00 66 2e 0f 1f 84  00 00 00 00 00 66 2e 0f  |...f.........f..|
+00000140  1f 84 00 00 00 00 00 66  2e 0f 1f 84 00 00 00 00  |.......f........|
+00000150  00 66 2e 0f 1f 84 00 00  00 00 00 66 2e 0f 1f 84  |.f.........f....|
+00000160  00 00 00 00 00 66 2e 0f  1f 84 00 00 00 00 00 66  |.....f.........f|
+00000170  2e 0f 1f 84 00 00 00 00  00 66 2e 0f 1f 84 00 00  |.........f......|
+00000180  00 00 00 66 2e 0f 1f 84  00 00 00 00 00 66 2e 0f  |...f.........f..|
+00000190  1f 84 00 00 00 00 00 66  2e 0f 1f 84 00 00 00 00  |.......f........|
+000001a0  00 66 2e 0f 1f 84 00 00  00 00 00 66 2e 0f 1f 84  |.f.........f....|
+000001b0  00 00 00 00 00 66 2e 0f  1f 84 00 00 00 00 00 66  |.....f.........f|
+000001c0  2e 0f 1f 84 00 00 00 00  00 66 2e 0f 1f 84 00 00  |.........f......|
+000001d0  00 00 00 66 2e 0f 1f 84  00 00 00 00 00 66 2e 0f  |...f.........f..|
+000001e0  1f 84 00 00 00 00 00 66  2e 0f 1f 84 00 00 00 00  |.......f........|
+000001f0  00 66 2e 0f 1f 84 00 00  00 00 00 0f 1f 00 55 aa  |.f............U.|
+00000200
