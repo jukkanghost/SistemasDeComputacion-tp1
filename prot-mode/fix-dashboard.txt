@@ -1,4 +1,0 @@
-dashboard registers -style list 'rax rbx rcx rdx rsi rdi rbp rsp r8 r9 r10 r11 r12 r13 r14 r15 rip eflags cs ss ds es fs gs'
-
-debuggear
-qemu-system-i386 -drive 'file=protected_mode.img,format=raw' -serial mon:stdio -smp 2 -S -s & gdb -quiet -x gdb.gdb 'protected_mode.elf'
